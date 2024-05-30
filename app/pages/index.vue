@@ -43,7 +43,7 @@
       <WorkExperience />
     </section>
     <section class="relative z-20">
-      <Skills2 />
+      <Skills />
     </section>
   </main>
 </template>
