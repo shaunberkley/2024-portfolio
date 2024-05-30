@@ -1,0 +1,38 @@
+{
+  "name": "app",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.0",
+    "@sanity/types": "^3.36.2",
+    "@types/node": "^18.17.14",
+    "nuxt": "^3.11.1",
+    "postcss": "^8.4.38",
+    "postcss-nested": "^6.0.1",
+    "shadcn-nuxt": "^0.10.4",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "dependencies": {
+    "@headlessui/vue": "^1.7.22",
+    "@nuxtjs/google-fonts": "^3.0.0",
+    "@nuxtjs/sanity": "^1.10.1",
+    "@portabletext/vue": "^1.0.7",
+    "@sanity/image-url": "^1.0.2",
+    "@types/noisejs": "^0.0.31",
+    "alea": "^1.0.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "groq": "^3.9.1",
+    "lucide-vue-next": "^0.378.0",
+    "noisejs": "^2.1.0",
+    "radix-vue": "^1.8.0",
+    "simplex-noise": "^4.0.1",
+    "tailwind-merge": "^2.3.0"
+  }
+}
