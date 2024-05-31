@@ -3,7 +3,9 @@
     <header class="bg-white shadow-sm sticky top-0 z-40">
       <div class="mx-auto max-w-7xl pl-2 sm:px-4 lg:px-8">
         <Popover class="flex h-16 justify-between" v-slot="{ open }">
-          <div class="flex items-center gap-8 px-2 lg:px-0">
+          <div
+            class="flex items-center justify-between w-full gap-8 px-2 lg:px-0"
+          >
             <div class="flex flex-shrink-0 items-center">
               <NuxtLink
                 to="/"
@@ -151,9 +153,13 @@ onMounted(async () => {
 
 const navigation = [
   { name: 'Home', href: '/', mobileOnly: true },
-  { name: 'Portfolio', href: '/portfolio' },
+  // { name: 'Portfolio', href: '/portfolio' },
   { name: 'Blog', href: '/blog' },
-  { name: 'About', href: '/about' },
-  { name: 'Resume', href: '/resume' },
+  // { name: 'About', href: '/about' },
+  {
+    name: 'Resume',
+    href: 'https://asdx2ma4i8vdouk9.public.blob.vercel-storage.com/Shaun%20Berkley%20Resume%20June%202024-cCVQikRp7XJ2dhRJwY1NiGgavRKi8j.pdf',
+    target: '_blank',
+  },
 ]
 </script>

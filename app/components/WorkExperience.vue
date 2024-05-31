@@ -1,10 +1,10 @@
 <template>
   <div
     id="experience"
-    class="space-y-6 bg-slate-800/95 backdrop-blur-md py-10 dark:bg-transparent lg:py-16"
+    class="space-y-6 bg-slate-800/95 backdrop-blur-md py-16 px-6 md:px-0 dark:bg-transparent lg:py-16"
   >
     <div class="max-w-4xl mx-auto">
-      <div class="md:mb-12">
+      <div class="mb-8 md:mb-12">
         <h2
           class="font-semibold text-3xl leading-[1.1] sm:text-3xl md:text-5xl text-white text-center"
         >
@@ -16,11 +16,11 @@
         <button
           v-for="job in jobs"
           :key="job._id"
-          class="flex items-center justify-between text-left py-6 transition-all ease-in-out outline-none bg-none rounded-[28px] duration-300 md:focus-visible:px-6 md:hover:px-6 hover:bg-slate-950/10 focus-visible:bg-slate-950/10"
+          class="flex items-center justify-between text-left py-6 px-4 transition-all ease-in-out outline-none bg-none rounded-[28px] duration-300 md:focus-visible:px-6 md:hover:px-6 hover:bg-slate-950/10 focus-visible:bg-slate-950/10"
         >
-          <div class="flex items-center space-x-6 text-muted">
+          <div class="flex items-center space-x-3 md:space-x-6 text-muted">
             <div
-              class="w-20 h-20 clip-rounded-image bg-no-repeat bg-center py-5 px-3 bg-origin-content bg-contain"
+              class="scale-[80%] md:scale-100 w-20 h-20 clip-rounded-image bg-no-repeat bg-center py-5 px-3 bg-origin-content bg-contain"
               :style="getJobStyle(job.primaryColor, job.whiteLogoUrl)"
             ></div>
             <div>

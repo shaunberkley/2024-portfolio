@@ -1,7 +1,7 @@
 <template>
   <div
     id="skills"
-    class="container space-y-6 px-8 py-16 dark:bg-transparent md:px-12 lg:py-16 max-w-5xl mx-auto rounded-xl md:rounded-3xl"
+    class="container space-y-6 px-8 py-16 dark:bg-transparent md:px-12 lg:py-16 max-w-6xl mx-auto rounded-xl md:rounded-3xl"
   >
     <div class="md:mb-12">
       <h2
@@ -10,86 +10,133 @@
         Skills
       </h2>
     </div>
-    <div class="grid grid-cols-1 gap-16">
+    <div
+      class="space-y-16 transition-opacity duration-1000"
+      :class="[loaded ? 'opacity-100' : 'opacity-0']"
+    >
       <!-- Render categories and their skills -->
-      <div v-for="category in categories" :key="category._id">
-        <h2 class="text-2xl font-semibold mb-4">
-          {{ category.name }}
-        </h2>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div
-            v-for="skill in category.skills"
-            :key="skill._id"
-            class="border border-gray-300 px-3 py-3 rounded-lg flex items-center space-x-4 bg-white/50 backdrop-blur-2xl"
-          >
-            <div
-              class="h-12 w-12 flex items-center justify-center rounded-lg p-2"
-              :style="{
-                backgroundColor: skill.logoBackgroundColor,
-                opacity: skill.opacity ?? 1,
-              }"
+      <ul
+        v-for="category in categoriesWithSkills"
+        :key="category._id"
+        class="space-y-4"
+      >
+        <li>
+          <h2 class="text-2xl font-semibold mb-4">
+            {{ category.name }}
+          </h2>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <li
+              v-for="skill in category.skills"
+              :key="skill._id"
+              class="border border-gray-300 px-3 py-3 rounded-lg flex items-center space-x-4 bg-white/50 backdrop-blur-2xl"
             >
-              <img
-                v-if="skill.logo"
-                :src="urlFor(skill.logo).url() ?? ''"
-                alt=""
-                class="h-full w-full object-contain object-center"
-              />
-            </div>
-            <div>
-              <h3 class="text-lg font-semibold">{{ skill.name }}</h3>
-              <p class="text-gray-400">{{ skill.description }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
+              <div
+                class="h-12 w-12 flex items-center justify-center rounded-lg p-2"
+                :style="{
+                  backgroundColor: skill.primaryColor?.hex || '#fff',
+                  opacity: skill.opacity ?? 1,
+                }"
+              >
+                <img
+                  v-if="skill.logo"
+                  :src="urlFor(skill.logo as SanityImage).url() ?? ''"
+                  :alt="skill.name"
+                  class="h-full w-full object-contain object-center"
+                />
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold">{{ skill.name }}</h3>
+                <p class="text-gray-400">
+                  {{ skill.yearsOfExperience }} years of experience
+                </p>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { urlFor, processImageAndExtractColor } from '~/utils'
+import type { Skill, SkillCategory } from '../types/sanity.types'
+import type { Image as SanityImage } from '@sanity/types'
 
-// Fetch skills from Sanity
-const skillsQuery = `*[_type == "skill"]`
-const categoriesQuery = `*[_type == "skillCategory"] | order(orderRank)`
+type SkillCategoryWithSkills = SkillCategory & {
+  skills: Skill[]
+}
 
-const categories = ref([])
+const props = defineProps({
+  skills: {
+    type: Array as PropType<Skill[]>,
+    required: true,
+  },
+  categories: {
+    type: Array as PropType<SkillCategory[]>,
+    required: true,
+  },
+})
 
-onMounted(async () => {
-  const sanity = useSanity()
-  const skills = await sanity.fetch(skillsQuery)
-  const fetchedCategories = await sanity.fetch(categoriesQuery)
+const categoriesWithSkills = ref<SkillCategoryWithSkills[]>([])
+const loaded = ref(false)
 
-  for (const skill of skills) {
-    if (skill.logo) {
-      const logoUrl = urlFor(skill.logo).url() ?? ''
-      skill.logoBackgroundColor =
-        skill?.primaryColor?.hex ??
-        (await processImageAndExtractColor(
-          logoUrl,
-          skill.fullColorBg,
-          skill.whiteBg,
-        ))
-      skill.opacity = skill?.opacity ?? 1
-    } else {
-      skill.logoBackgroundColor = skill?.primaryColor?.hex ?? '#ffffff'
-      skill.opacity = skill?.opacity ?? 1
-    }
-  }
+const processSkills = async () => {
+  const transformedSkills = await Promise.all(
+    props.skills.map(async (skill) => {
+      const transformedSkill = { ...skill }
+      if (transformedSkill.logo) {
+        const logoUrl = urlFor(transformedSkill.logo as SanityImage).url() ?? ''
+        transformedSkill.primaryColor = {
+          _type: 'color',
+          hex:
+            transformedSkill?.primaryColor?.hex ??
+            (await processImageAndExtractColor(
+              logoUrl,
+              !!transformedSkill.fullColorBg,
+              transformedSkill.primaryColor?.hex,
+            )),
+        }
+        transformedSkill.opacity = transformedSkill?.opacity ?? 1
+      } else {
+        transformedSkill.primaryColor = {
+          _type: 'color',
+          hex: transformedSkill?.primaryColor?.hex ?? '#ffffff',
+        }
+        transformedSkill.opacity = transformedSkill?.opacity ?? 1
+      }
+      return transformedSkill
+    }),
+  )
 
-  categories.value = fetchedCategories.map((category) => {
-    category.skills = skills
-      .filter((skill) => skill.category._ref === category._id)
+  categoriesWithSkills.value = props.categories.map((category) => {
+    const transformedCategory = { ...category, skills: [] as Skill[] }
+    transformedCategory.skills = transformedSkills
+      .filter((skill) => skill.category?._ref === transformedCategory._id)
       .sort((a, b) => {
         if (a.rating !== b.rating) {
-          return b.rating - a.rating // Sort by rating in descending order
+          return (b?.rating ?? 0) - (a?.rating ?? 0) // Sort by rating in descending order
         } else {
-          return b.yearsOfExperience - a.yearsOfExperience // Sort by yearsOfExperience in descending order
+          return (b.yearsOfExperience ?? 0) - (a.yearsOfExperience ?? 0) // Sort by yearsOfExperience in descending order
         }
       })
-    return category
+    return transformedCategory
   })
+
+  loaded.value = true
+}
+
+onMounted(() => {
+  processSkills()
 })
+
+watch(
+  () => props.skills,
+  (newVal) => {
+    if (newVal.length) {
+      processSkills()
+    }
+  },
+)
 </script>

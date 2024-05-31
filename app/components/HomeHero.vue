@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex mx-auto max-w-4xl flex-col items-center gap-8 text-center rounded-2xl px-5 py-10"
+    class="flex mx-auto max-w-4xl flex-col items-center gap-8 text-center rounded-2xl px-5 py-10 bg-white/0 backdrop-blur-xl border border-border/30 shadow-lg shadow-border/50"
   >
     <Button
       class="rounded-full px-4 py-1.5 text-xs md:text-sm font-normal bg-white"
@@ -42,7 +42,7 @@
         Engineering
       </div>
       <div
-        class="flex items-start justify-center text-center px-6 mt-1 bg-black/5 rounded-lg md:rounded-2xl backdrop-blur-md mx-auto max-w-min overflow-hidden h-[calc(theme(fontSize.4xl)*theme(lineHeight.tight))] sm:h-[calc(theme(fontSize.5xl)*theme(lineHeight.tight))] md:h-[calc(theme(fontSize.6xl)*theme(lineHeight.tight))] lg:h-[calc(theme(fontSize.7xl)*theme(lineHeight.tight))]"
+        class="flex items-start justify-center text-center px-6 mt-1 bg-black/5 rounded-lg md:rounded-2xl backdrop-blur-md mx-auto max-w-min overflow-hidden h-[calc(theme(fontSize.4xl)*1.36)] sm:h-[calc(theme(fontSize.5xl)*1.36)] md:h-[calc(theme(fontSize.6xl)*1.36)] lg:h-[calc(theme(fontSize.7xl)*1.36)]"
       >
         <ul
           class="whitespace-nowrap mx-auto block animate-text-slide-6 leading-tight [&_li]:block"

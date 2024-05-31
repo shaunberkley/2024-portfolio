@@ -1,7 +1,5 @@
-<script setup lang="ts"></script>
-
 <template>
-  <main class="relative">
+  <main class="relative overflow-hidden">
     <div
       class="w-full absolute top-0 bottom-0 left-0 overflow-hidden opacity-40 pointer-events-none"
     >
@@ -31,19 +29,41 @@
         ></div>
       </div>
     </div>
-    <section class="space-y-6 py-8 md:py-10 lg:py-20 relative z-10">
+    <section class="space-y-6 py-8 md:py-10 lg:py-20 relative z-20">
       <HomeHero />
     </section>
-    <section class="relative z-20 -top-[80px] md:-top-[100px]">
+    <section
+      class="relative z-10 -top-[30px] sm:-top-[60px] md:-top-[60px] lg:-top-[75px]"
+    >
       <div class="absolute top-0 left-0 w-full h-full">
-        <SkillBubbles />
+        <SkillBubbles v-if="skills" :skills="skills" />
       </div>
     </section>
-    <section class="pt-40 relative z-10 mt-16 bg-slate-950/5">
+    <section class="relative z-20 mt-56">
       <WorkExperience />
     </section>
     <section class="relative z-20">
-      <Skills />
+      <Skills :skills="skills" :categories="categories" />
     </section>
   </main>
 </template>
+
+<script setup lang="ts">
+import { type SkillCategory, type Skill } from '../types/sanity.types'
+import { ref, onBeforeMount } from 'vue'
+
+const categoriesQuery = `*[_type == "skillCategory"] | order(orderRank)`
+
+const skills = ref<Skill[]>([])
+const categories = ref<SkillCategory[]>([])
+
+const fetchSkills = async () => {
+  const skillsQuery = `*[_type == "skill"]`
+  skills.value = await useSanity().fetch(skillsQuery)
+  categories.value = await useSanity().fetch(categoriesQuery)
+}
+
+onBeforeMount(async () => {
+  fetchSkills()
+})
+</script>

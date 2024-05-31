@@ -26,8 +26,8 @@ export function urlFor(source: Image) {
 
 export function extractColorFromImage(
   image: HTMLImageElement,
-  fullColorBg: boolean,
-  primaryColor: string,
+  fullColorBg?: boolean,
+  primaryColor?: string | undefined,
 ): string {
   if (primaryColor) {
     return primaryColor
@@ -75,8 +75,8 @@ export function extractColorFromImage(
 
 export async function processImageAndExtractColor(
   url: string,
-  fullColorBg: boolean,
-  primaryColor: string,
+  fullColorBg?: boolean,
+  primaryColor?: string | undefined,
 ): Promise<string> {
   return new Promise((resolve) => {
     const img = new Image()
