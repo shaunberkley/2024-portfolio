@@ -128,24 +128,19 @@
     </header>
     <main>
       <NuxtPage />
+      <SpeedInsights />
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
-import {
-  Popover,
-  PopoverButton,
-  PopoverOverlay,
-  PopoverPanel,
-  TransitionChild,
-  TransitionRoot,
-} from '@headlessui/vue'
 import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
-
+import { SpeedInsights } from '@vercel/speed-insights/nuxt'
 const route = useRoute()
 
 const routeName = route.name
+
+const open = ref<boolean>(false)
 
 onMounted(async () => {
   console.log(routeName)

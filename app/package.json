@@ -26,6 +26,7 @@
     "@portabletext/vue": "^1.0.7",
     "@sanity/image-url": "^1.0.2",
     "@types/noisejs": "^0.0.31",
+    "@vercel/speed-insights": "^1.0.11",
     "alea": "^1.0.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
