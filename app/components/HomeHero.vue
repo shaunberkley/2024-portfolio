@@ -48,8 +48,8 @@
           class="whitespace-nowrap mx-auto block animate-text-slide-6 leading-tight [&_li]:block"
         >
           <li>Leader 👨🏼‍💼</li>
-          <li>Engineer 👨🏼‍💻</li>
           <li>Wizard 🧙🏻‍♂️</li>
+          <li>Expert 👨🏼‍💻</li>
           <li>Aficionado 👨🏼‍🎨</li>
           <li>Mentor 👨🏼‍🏫</li>
           <li>Pioneer 👨🏼‍🚀</li>
