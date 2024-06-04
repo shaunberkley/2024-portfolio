@@ -243,9 +243,7 @@ const processSkills = async () => {
         return bubble
       }
 
-      const logoUrl = urlFor(skill.logo as SanityImage)
-        .width(200)
-        .url()
+      const logoUrl = urlFor(skill.logo as SanityImage).url()
       const backgroundColor = await processImageAndExtractColor(
         logoUrl,
         skill.fullColorBg,
