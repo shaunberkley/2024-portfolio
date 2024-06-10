@@ -39,7 +39,7 @@
               >
                 <img
                   v-if="skill.logo"
-                  :src="urlFor(skill.logo as SanityImage).url() ?? ''"
+                  :src="skill.logo ?? ''"
                   :alt="skill.name"
                   class="h-full w-full object-contain object-center"
                 />
@@ -60,17 +60,18 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
-import { urlFor, processImageAndExtractColor } from '~/utils'
-import type { Skill, SkillCategory } from '../types/sanity.types'
-import type { Image as SanityImage } from '@sanity/types'
+import { processImageAndExtractColor } from '~/utils'
+import type { SkillCategory, Skill } from '../types/sanity.types'
+
+type UpdatedSkill = Omit<Skill, 'logo'> & { logo: string }
 
 type SkillCategoryWithSkills = SkillCategory & {
-  skills: Skill[]
+  skills: UpdatedSkill[]
 }
 
 const props = defineProps({
   skills: {
-    type: Array as PropType<Skill[]>,
+    type: Array as PropType<UpdatedSkill[]>,
     required: true,
   },
   categories: {
@@ -87,13 +88,12 @@ const processSkills = async () => {
     props.skills.map(async (skill) => {
       const transformedSkill = { ...skill }
       if (transformedSkill.logo) {
-        const logoUrl = urlFor(transformedSkill.logo as SanityImage).url() ?? ''
         transformedSkill.primaryColor = {
           _type: 'color',
           hex:
             transformedSkill?.primaryColor?.hex ??
             (await processImageAndExtractColor(
-              logoUrl,
+              transformedSkill.logo ?? '',
               !!transformedSkill.fullColorBg,
               transformedSkill.primaryColor?.hex,
             )),
@@ -110,8 +110,10 @@ const processSkills = async () => {
     }),
   )
 
+  console.log(transformedSkills)
+
   categoriesWithSkills.value = props.categories.map((category) => {
-    const transformedCategory = { ...category, skills: [] as Skill[] }
+    const transformedCategory = { ...category, skills: [] as UpdatedSkill[] }
     transformedCategory.skills = transformedSkills
       .filter((skill) => skill.category?._ref === transformedCategory._id)
       .sort((a, b) => {

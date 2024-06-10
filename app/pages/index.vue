@@ -53,13 +53,25 @@ import { type SkillCategory, type Skill } from '../types/sanity.types'
 import { ref, onBeforeMount } from 'vue'
 
 const categoriesQuery = `*[_type == "skillCategory"] | order(orderRank)`
-
-const skills = ref<Skill[]>([])
+type UpdatedSkill = Omit<Skill, 'logo'> & { logo: string }
+const skills = ref<UpdatedSkill[]>([])
 const categories = ref<SkillCategory[]>([])
 
 const fetchSkills = async () => {
-  const skillsQuery = `*[_type == "skill"]`
+  const skillsQuery = `*[_type == "skill"]{
+    _id,
+    featured,
+    name,
+    rating,
+    yearsOfExperience,
+    opacity,
+    primaryColor,    
+    category,
+    fullColorBg,
+    "logo": logo.asset->url,    
+  }`
   skills.value = await useSanity().fetch(skillsQuery)
+  console.log(skills.value)
   categories.value = await useSanity().fetch(categoriesQuery)
 }
 

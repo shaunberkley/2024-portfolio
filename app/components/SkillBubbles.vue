@@ -61,13 +61,14 @@
 import { ref, onMounted, watch, nextTick } from 'vue'
 import { createNoise2D } from 'simplex-noise'
 import alea from 'alea'
-import { urlFor } from '~/utils'
 import type { Skill } from '../types/sanity.types'
 import type { Image as SanityImage } from '@sanity/types'
 
+type UpdatedSkill = Omit<Skill, 'logo'> & { logo: string }
+
 const props = defineProps({
   skills: {
-    type: Array as PropType<Skill[]>,
+    type: Array as PropType<UpdatedSkill[]>,
     required: true,
   },
 })
@@ -82,7 +83,7 @@ interface BubbleSpec {
   xWithNoise?: number
   yWithNoise?: number
   style?: Record<string, string | number>
-  logoUrl?: string
+  logo?: string
   skillName?: string
   yearsOfExperience?: number
   rating?: number
@@ -207,7 +208,7 @@ const getBubbleStyle = (
 
   return {
     transform: `translate(${bubble.xWithNoise}px, ${bubble.yWithNoise}px) scale(${bubble.s ?? 1})`,
-    backgroundImage: `url(${bubble.logoUrl})`,
+    backgroundImage: `url(${bubble.logo})`,
     backgroundColor: bubble.backgroundColor ?? '',
     opacity: bubble.opacity ?? 1,
   }
@@ -243,9 +244,8 @@ const processSkills = async () => {
         return bubble
       }
 
-      const logoUrl = urlFor(skill.logo as SanityImage).url()
       const backgroundColor = await processImageAndExtractColor(
-        logoUrl,
+        skill.logo,
         skill.fullColorBg,
         skill.primaryColor?.hex,
       )
@@ -253,7 +253,7 @@ const processSkills = async () => {
       return {
         ...bubble,
         in: index,
-        logoUrl,
+        logo: skill.logo,
         noiseSeedX: Math.floor(Math.random() * 64000),
         noiseSeedY: Math.floor(Math.random() * 64000),
         backgroundColor,
