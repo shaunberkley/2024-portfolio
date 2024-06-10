@@ -153,7 +153,7 @@ const navigation = [
   // { name: 'About', href: '/about' },
   {
     name: 'Resume',
-    href: 'https://asdx2ma4i8vdouk9.public.blob.vercel-storage.com/Shaun%20Berkley%20Resume%20June%202024-cCVQikRp7XJ2dhRJwY1NiGgavRKi8j.pdf',
+    href: 'https://asdx2ma4i8vdouk9.public.blob.vercel-storage.com/Shaun%20Berkley%20Resume%20June%202024.pdf',
     target: '_blank',
   },
 ]
