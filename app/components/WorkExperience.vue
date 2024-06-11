@@ -1,7 +1,7 @@
 <template>
   <div
     id="experience"
-    class="space-y-6 bg-slate-800/95 backdrop-blur-md py-16 px-6 md:px-0 dark:bg-transparent lg:py-16"
+    class="space-y-6 bg-slate-800/95 backdrop-blur-md py-12 px-6 md:px-0 dark:bg-transparent lg:py-16"
   >
     <div class="max-w-4xl mx-auto">
       <div class="mb-8 md:mb-12">
@@ -31,40 +31,18 @@
                 {{ job.role }}
               </p>
               <p class="md:hidden text-sm md:text-base text-muted opacity-65">
-                {{
-                  formatDate(job.startDate, {
-                    month: 'short',
-                    year: 'numeric',
-                  })
-                }}
+                {{ formatDate(job.startDate, 'MMM yyyy') }}
                 -
                 {{
-                  job.endDate
-                    ? formatDate(job.endDate, {
-                        month: 'short',
-                        year: 'numeric',
-                      })
-                    : 'Present'
+                  job.endDate ? formatDate(job.endDate, 'MMM yyyy') : 'Present'
                 }}
               </p>
             </div>
           </div>
           <p class="hidden md:block text-muted opacity-65">
-            {{
-              formatDate(job.startDate, {
-                month: 'short',
-                year: 'numeric',
-              })
-            }}
+            {{ formatDate(job.startDate, 'MMM yyyy') }}
             -
-            {{
-              job.endDate
-                ? formatDate(job.endDate, {
-                    month: 'short',
-                    year: 'numeric',
-                  })
-                : 'Present'
-            }}
+            {{ job.endDate ? formatDate(job.endDate, 'MMM yyyy') : 'Present' }}
           </p>
         </button>
       </div>
@@ -74,7 +52,6 @@
 
 <script async setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { formatDate } from '~/utils'
 
 interface Job {
   _id: string
