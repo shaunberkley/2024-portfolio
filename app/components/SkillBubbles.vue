@@ -2,7 +2,7 @@
   <div class="w-full h-full relative group">
     <Button
       variant="outline"
-      to="#skills"
+      to="/skills"
       class="bg-white/50 backdrop-blur-lg rounded-full px-24 absolute z-40 left-0 right-0 -bottom-36 md:-bottom-44 max-w-fit mx-auto transition-opacity duration-300 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 group-focus-within:opacity-100 hover:opacity-100 focus-visible:opacity-100"
     >
       View all skills
@@ -62,7 +62,6 @@ import { ref, onMounted, watch, nextTick } from 'vue'
 import { createNoise2D } from 'simplex-noise'
 import alea from 'alea'
 import type { Skill } from '../types/sanity.types'
-import type { Image as SanityImage } from '@sanity/types'
 
 type UpdatedSkill = Omit<Skill, 'logo'> & { logo: string }
 
@@ -226,10 +225,8 @@ const processSkills = async () => {
   const containerWidth = container.clientWidth || 0
   const margin = Math.max(containerWidth * 0.6, 2900) // Use a margin to control when the bubbles re-enter
 
-  // Filter skills to include only featured skills with logos
-  const filteredSkills = props.skills.filter(
-    (skill) => skill.featured && skill.logo,
-  )
+  // Filter skills to include only skills with logos
+  const filteredSkills = props.skills.filter((skill) => skill.logo)
   const skillLength = filteredSkills.length
 
   if (skillLength === 0) return
