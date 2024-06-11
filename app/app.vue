@@ -9,7 +9,7 @@
             <div class="flex flex-shrink-0 items-center">
               <NuxtLink
                 to="/"
-                class="flex items-center gap-2 grayscale brightness-0 hover:brightness-100 hover:grayscale-0 focus-visible:brightness-100 focus-visible:grayscale-0 transition-all ease-in-out"
+                class="flex items-center gap-2 hover:grayscale hover:brightness-0 focus-visible:brightness-0 focus-visible:grayscale transition-all ease-in-out"
               >
                 <img
                   class="h-8 w-auto"

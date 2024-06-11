@@ -13,73 +13,99 @@
       </div>
 
       <div class="flex flex-col gap-0">
-        <button
-          v-for="job in jobs"
-          :key="job._id"
-          class="flex items-center justify-between text-left py-6 px-4 transition-all ease-in-out outline-none bg-none rounded-[28px] duration-300 md:focus-visible:px-6 md:hover:px-6 hover:bg-slate-950/10 focus-visible:bg-slate-950/10"
-        >
-          <div class="flex items-center space-x-3 md:space-x-6 text-muted">
-            <div
-              class="scale-[80%] md:scale-100 w-20 h-20 clip-rounded-image bg-no-repeat bg-center py-5 px-3 bg-origin-content bg-contain"
-              :style="getJobStyle(job.primaryColor, job.whiteLogoUrl)"
-            ></div>
-            <div>
-              <h2 class="text-lg md:text-xl font-semibold opacity-90">
-                {{ job.company }}
-              </h2>
-              <p class="text-sm md:text-base text-muted opacity-65">
-                {{ job.role }}
-              </p>
-              <p class="md:hidden text-sm md:text-base text-muted opacity-65">
-                {{ formatDate(job.startDate, 'MMM yyyy') }}
-                -
-                {{
-                  job.endDate ? formatDate(job.endDate, 'MMM yyyy') : 'Present'
-                }}
-              </p>
-            </div>
-          </div>
-          <p class="hidden md:block text-muted opacity-65">
-            {{ formatDate(job.startDate, 'MMM yyyy') }}
-            -
-            {{ job.endDate ? formatDate(job.endDate, 'MMM yyyy') : 'Present' }}
-          </p>
-        </button>
+        <div v-for="job in jobs" :key="job._id">
+          <JobListItem :job="job" @click="handleJobClick(job)" />
+        </div>
       </div>
     </div>
+
+    <!-- Dialog for desktop -->
+    <Dialog v-if="isDesktop" v-model:open="dialogOpen">
+      <DialogContent class="sm:max-w-3xl">
+        <DialogHeader class="flex flex-row items-center gap-4">
+          <img
+            :src="selectedJob?.logo"
+            class="w-20 h-20 rounded-2xl p-3 border object-contain object-center"
+          />
+          <div>
+            <DialogTitle class="text-3xl">{{
+              selectedJob?.company
+            }}</DialogTitle>
+            <DialogDescription>
+              {{ selectedJob?.role }}
+            </DialogDescription>
+          </div>
+        </DialogHeader>
+        <JobContent v-if="selectedJob" :job="selectedJob" />
+      </DialogContent>
+    </Dialog>
+
+    <!-- Drawer for mobile -->
+    <Drawer v-else v-model:open="drawerOpen">
+      <DrawerContent class="px-2">
+        <DrawerHeader class="flex flex-row items-center gap-4 text-left">
+          <img
+            :src="selectedJob?.logo"
+            class="w-20 h-20 rounded-2xl p-3 border object-contain object-center"
+          />
+          <div>
+            <DrawerTitle class="text-3xl">{{
+              selectedJob?.company
+            }}</DrawerTitle>
+            <DrawerDescription>
+              {{ selectedJob?.role }}
+            </DrawerDescription>
+          </div>
+        </DrawerHeader>
+        <JobContent v-if="selectedJob" :job="selectedJob" />
+      </DrawerContent>
+    </Drawer>
   </div>
 </template>
 
-<script async setup lang="ts">
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useMediaQuery } from '@vueuse/core'
+import JobContent from '@/components/JobContent.vue'
+import JobListItem from '@/components/JobListItem.vue'
+import type { Job } from '../types/sanity.types'
+import type { UpdatedSkill } from './Skills.vue'
 
-interface Job {
-  _id: string
-  company: string
-  website: string
-  primaryColor: string
-  secondaryColor: string
-  role: string
-  startDate: string
-  endDate?: string
-  logoUrl: string
-  whiteLogoUrl: string
+export type UpdatedJob = Omit<
+  Job,
+  'logo' | 'whiteLogoUrl' | 'relatedSkills'
+> & {
+  logo: string
+  whiteLogo: string
+  relatedSkills: UpdatedSkill[]
 }
 
-const jobs = ref<Job[]>([])
+const jobs = ref<UpdatedJob[]>([])
+const selectedJob = ref<UpdatedJob | null>(null)
+const dialogOpen = ref(false)
+const drawerOpen = ref(false)
 
-const query = groq`*[_type == "job"]|order(endDate desc){
+const query = `*[_type == "job"]|order(endDate desc){
+  _id,
+  company,
+  website,
+  primaryColor,
+  secondaryColor,
+  role,
+  startDate,
+  endDate,
+  body,
+  "logo": logo.asset->url,
+  "whiteLogo": whiteLogo.asset->url,
+  "relatedSkills": *[_type == "skill" && references(^._id)]|order(rating desc, yearsOfExperience desc){
     _id,
-    company,
-    website,
-    primaryColor,
-    secondaryColor,
-    role,
-    startDate,
-    endDate,
-    "logoUrl": logo.asset->url,
-    "whiteLogoUrl": whiteLogo.asset->url
-  }`
+    name,
+    yearsOfExperience,
+    rating,
+    "logo": logo.asset->url,
+    "whiteLogo": whiteLogo.asset->url
+  }
+}`
 
 const sanityClient = useSanity()
 
@@ -87,15 +113,14 @@ onMounted(async () => {
   jobs.value = await sanityClient.fetch(query)
 })
 
-const getJobStyle = (primaryColor: any, backgroundImage: string) => {
-  const styleObject = {
-    backgroundColor: primaryColor.hex,
-    backgroundImage: `url(${backgroundImage})`,
+const isDesktop = useMediaQuery('(min-width: 768px)')
+
+const handleJobClick = (job: UpdatedJob) => {
+  selectedJob.value = job
+  if (isDesktop.value) {
+    dialogOpen.value = true
+  } else {
+    drawerOpen.value = true
   }
-  return styleObject
 }
 </script>
-
-<style scoped>
-/* Use Tailwind classes for styling */
-</style>

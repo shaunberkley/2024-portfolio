@@ -110,10 +110,6 @@
   }
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 .pulsating-circle::before {
   content: '';
   position: relative;

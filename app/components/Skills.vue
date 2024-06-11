@@ -71,7 +71,10 @@ import { ref, onMounted, watch } from 'vue'
 import { processImageAndExtractColor } from '~/utils'
 import type { SkillCategory, Skill } from '../types/sanity.types'
 
-type UpdatedSkill = Omit<Skill, 'logo'> & { logo: string }
+export type UpdatedSkill = Omit<Skill, 'logo' | 'whiteLogoUrl'> & {
+  logo: string
+  whiteLogo: string
+}
 
 const props = defineProps({
   skills: {
