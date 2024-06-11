@@ -30,7 +30,7 @@ const computedAs = computed(() => {
     :is="to ? NuxtLink : Primitive"
     :to="to"
     :href="href"
-    :target="to ? target : null"
+    :target="href ? target : null"
     :as="computedAs"
     :class="cn(buttonVariants({ variant, size }), props.class)"
   >
