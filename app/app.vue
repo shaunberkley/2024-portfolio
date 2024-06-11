@@ -51,9 +51,8 @@ const route = useRoute()
 
 const routeName = route.name
 
-const open = ref<boolean>(false)
-
-const resumeUrl = process.env.NUXT_RESUME_URL
+const config = useRuntimeConfig()
+const resumeUrl: string = config.public.NUXT_RESUME_URL
 
 onMounted(async () => {
   console.log(routeName)

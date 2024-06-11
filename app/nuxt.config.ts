@@ -1,18 +1,28 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/sanity', [
-    '@nuxtjs/google-fonts',
-    {
-      families: {
-        'IBM Plex Mono': [500, 700],
-        Inter: [500, 700, 800],
-        'PT Serif': [400, 700],
-        download: true,
-        inject: true,
+  modules: [
+    '@nuxtjs/sanity',
+    [
+      '@nuxtjs/google-fonts',
+      {
+        families: {
+          'IBM Plex Mono': [500, 700],
+          Inter: [500, 700, 800],
+          'PT Serif': [400, 700],
+          download: true,
+          inject: true,
+        },
       },
-    },
-  ], "@nuxtjs/tailwindcss", "shadcn-nuxt"],
+    ],
+    '@nuxtjs/tailwindcss',
+    'shadcn-nuxt',
+  ],
   css: ['~/assets/css/main.css'],
+  runtimeConfig: {
+    public: {
+      NUXT_RESUME_URL: process.env.NUXT_RESUME_URL ?? '',
+    },
+  },
   sanity: {
     projectId: process.env.NUXT_SANITY_PROJECT_ID,
     dataset: process.env.NUXT_SANITY_DATASET,

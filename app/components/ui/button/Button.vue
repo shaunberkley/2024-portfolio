@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, withDefaults } from 'vue'
+import { defineProps, withDefaults, computed } from 'vue'
 import type { HTMLAttributes } from 'vue'
 import { Primitive, type PrimitiveProps } from 'radix-vue'
 import { type ButtonVariants, buttonVariants } from '.'
@@ -12,10 +12,16 @@ interface Props extends PrimitiveProps {
   class?: HTMLAttributes['class']
   to?: string
   target?: string
+  href?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  as: 'button',
+  as: 'button', // Default to 'button'
+})
+
+// Computed property to set 'as' dynamically
+const computedAs = computed(() => {
+  return props.href ? 'a' : 'button'
 })
 </script>
 
@@ -23,8 +29,9 @@ const props = withDefaults(defineProps<Props>(), {
   <component
     :is="to ? NuxtLink : Primitive"
     :to="to"
+    :href="href"
     :target="to ? target : null"
-    :as="as"
+    :as="computedAs"
     :class="cn(buttonVariants({ variant, size }), props.class)"
   >
     <slot />

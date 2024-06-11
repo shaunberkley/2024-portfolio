@@ -3,9 +3,10 @@
     class="flex mx-auto max-w-4xl flex-col items-center gap-8 text-center rounded-2xl px-5 py-10 bg-white/0 backdrop-blur-xl border border-border/30 shadow-lg shadow-border/50"
   >
     <Button
+      v-if="resumeUrl"
       class="rounded-full px-4 py-1.5 text-xs md:text-sm font-normal bg-white"
       variant="outline"
-      :to="resumeUrl"
+      :href="resumeUrl"
       target="_blank"
     >
       <div class="flex items-center gap-6">
@@ -59,20 +60,10 @@
         </ul>
       </div>
     </h1>
-    <!-- <p
-      class="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8"
-    >
-      Based in Los Angeles, California. Formerly at Indeed & Capital group.
-      Follow along as I share my journey, projects, and insights in the world of
-      user-centric design and development.
-    </p> -->
-    <!-- <div class="space-x-4 mt-10">
-      <Button class="w-40">View Portfolio 🖥️</Button>
-      <Button class="w-32" variant="outline">GitHub</Button>
-    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
-const resumeUrl = process.env.NUXT_RESUME_URL
+const config = useRuntimeConfig()
+const resumeUrl: string = config.public.NUXT_RESUME_URL
 </script>
