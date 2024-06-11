@@ -5,6 +5,8 @@
     <Button
       class="rounded-full px-4 py-1.5 text-xs md:text-sm font-normal bg-white"
       variant="outline"
+      :to="resumeUrl"
+      target="_blank"
     >
       <div class="flex items-center gap-6">
         <div class="flex items-center gap-3">
@@ -71,4 +73,6 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const resumeUrl = process.env.NUXT_RESUME_URL
+</script>
