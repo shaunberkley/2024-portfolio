@@ -4,17 +4,12 @@ import { parseISO, format } from 'date-fns'
 
 export function formatDate(
   date: string,
-  options: Intl.DateTimeFormatOptions = {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  },
+  formatString: string = 'dd MMM yyyy',
 ): string {
   // Parse the ISO date string
   const dateObject = parseISO(date)
 
   // Format the date using date-fns
-  const formatString = `${options.month === 'short' ? 'MMM' : 'MMMM'} yyyy`
   return format(dateObject, formatString)
 }
 

@@ -28,13 +28,7 @@ const { data: post } = await useSanityQuery<Post>(query, {
         class="block text-sm text-gray-600 mb-2"
       >
         Published on
-        {{
-          formatDate(post._createdAt, {
-            month: 'long',
-            day: '2-digit',
-            year: 'numeric',
-          })
-        }}
+        {{ formatDate(post._createdAt, 'MMM yyyy') }}
       </time>
       <h1 class="mt-2 text-4xl lg:text-5xl font-extrabold mb-6">
         {{ post.title }}
@@ -42,7 +36,7 @@ const { data: post } = await useSanityQuery<Post>(query, {
       <img
         v-if="post.mainImage"
         class="w-full h-[200px] md:h-[500px] object-cover rounded-lg mb-6"
-        :src="$urlFor(post.mainImage).width(1920).url()"
+        :src="urlFor(post.mainImage).width(1920).url()"
         :alt="post.title"
       />
       <div v-else class="w-full h-[200px] md:h-[500px] bg-black mb-6" />
@@ -87,5 +81,8 @@ const { data: post } = await useSanityQuery<Post>(query, {
 .prose a {
   color: #3b82f6; /* Tailwind blue-500 color */
   text-decoration: underline; /* Ensure links are clearly distinguishable */
+}
+h2 {
+  @apply text-2xl md:text-3xl mb-2 font-bold;
 }
 </style>
