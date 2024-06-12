@@ -1,7 +1,7 @@
 <template>
   <div>
     <dl
-      class="divide-y divide-gray-100 h-full max-h-96 overflow-auto md:max-h-[750px]"
+      class="divide-y divide-gray-100 h-full max-h-96 overflow-auto md:max-h-[800px]"
     >
       <div v-if="job.website" class="px-4 py-6 sm:grid sm:grid-cols-4 sm:gap-4">
         <dt class="text-sm font-medium text-gray-900">Website</dt>

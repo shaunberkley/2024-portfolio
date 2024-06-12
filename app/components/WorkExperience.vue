@@ -22,21 +22,23 @@
     <!-- Dialog for desktop -->
     <Dialog v-if="isDesktop" v-model:open="dialogOpen">
       <DialogContent class="sm:max-w-3xl">
-        <DialogHeader class="flex flex-row items-center gap-4">
-          <img
-            :src="selectedJob?.logo"
-            class="w-20 h-20 rounded-2xl p-3 border object-contain object-center"
-          />
-          <div>
-            <DialogTitle class="text-3xl">{{
-              selectedJob?.company
-            }}</DialogTitle>
-            <DialogDescription>
-              {{ selectedJob?.role }}
-            </DialogDescription>
-          </div>
-        </DialogHeader>
-        <JobContent v-if="selectedJob" :job="selectedJob" />
+        <div class="max-h-screen overflow-auto">
+          <DialogHeader class="flex flex-row items-center gap-4">
+            <img
+              :src="selectedJob?.logo"
+              class="w-20 h-20 rounded-2xl p-3 border object-contain object-center"
+            />
+            <div>
+              <DialogTitle class="text-3xl">{{
+                selectedJob?.company
+              }}</DialogTitle>
+              <DialogDescription>
+                {{ selectedJob?.role }}
+              </DialogDescription>
+            </div>
+          </DialogHeader>
+          <JobContent v-if="selectedJob" :job="selectedJob" />
+        </div>
       </DialogContent>
     </Dialog>
 
