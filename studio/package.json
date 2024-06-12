@@ -20,6 +20,7 @@
     "@sanity/color-input": "^3.1.1",
     "@sanity/orderable-document-list": "^1.2.1",
     "@sanity/vision": "^3.34.0",
+    "node-vibrant": "3.2.1-alpha.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",

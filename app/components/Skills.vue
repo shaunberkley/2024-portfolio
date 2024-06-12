@@ -67,8 +67,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
-import { processImageAndExtractColor } from '~/utils'
 import type { SkillCategory, Skill } from '../types/sanity.types'
 
 export type UpdatedSkill = Omit<Skill, 'logo' | 'whiteLogoUrl'> & {
@@ -117,13 +115,7 @@ const processSkills = async () => {
         if (transformedSkill.logo) {
           transformedSkill.primaryColor = {
             _type: 'color',
-            hex:
-              transformedSkill?.primaryColor?.hex ??
-              (await processImageAndExtractColor(
-                transformedSkill.logo ?? '',
-                !!transformedSkill.fullColorBg,
-                transformedSkill.primaryColor?.hex,
-              )),
+            hex: transformedSkill?.primaryColor?.hex,
           }
           transformedSkill.opacity = transformedSkill?.opacity ?? 1
         } else {

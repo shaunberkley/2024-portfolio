@@ -241,19 +241,13 @@ const processSkills = async () => {
         return bubble
       }
 
-      const backgroundColor = await processImageAndExtractColor(
-        skill.logo,
-        skill.fullColorBg,
-        skill.primaryColor?.hex,
-      )
-
       return {
         ...bubble,
         in: index,
         logo: skill.logo,
         noiseSeedX: Math.floor(Math.random() * 64000),
         noiseSeedY: Math.floor(Math.random() * 64000),
-        backgroundColor,
+        backgroundColor: skill.primaryColor?.hex,
         fullColorBg: skill.fullColorBg,
         opacity: skill.fullColorBg ? 1 : skill.opacity ?? 1,
         primaryColor: skill.primaryColor,
@@ -261,7 +255,7 @@ const processSkills = async () => {
         style: getBubbleStyle(
           {
             ...bubble,
-            backgroundColor,
+            backgroundColor: skill.primaryColor?.hex,
             fullColorBg: skill.fullColorBg,
             opacity: skill.fullColorBg ? 1 : 0.4,
             loaded: true,
