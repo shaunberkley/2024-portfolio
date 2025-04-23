@@ -2,22 +2,11 @@
   "name": "app",
   "private": true,
   "scripts": {
-    "build": "nuxt build",
+    "build": "nuxt build --preset=cloudflare_pages",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
-  },
-  "devDependencies": {
-    "@nuxtjs/tailwindcss": "^6.12.0",
-    "@sanity/types": "^3.45.0",
-    "@types/node": "^18.17.14",
-    "nuxt": "^3.11.1",
-    "postcss": "^8.4.38",
-    "postcss-nested": "^6.0.1",
-    "sass": "^1.77.4",
-    "shadcn-nuxt": "^0.10.4",
-    "tailwindcss-animate": "^1.0.7"
+    "postinstall": "nuxt prepare",
+    "preview": "nuxt preview"
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.22",
@@ -37,5 +26,16 @@
     "simplex-noise": "^4.0.1",
     "tailwind-merge": "^2.3.0",
     "vaul-vue": "^0.1.2"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.0",
+    "@sanity/types": "^3.45.0",
+    "@types/node": "^18.17.14",
+    "nuxt": "^3.11.1",
+    "postcss": "^8.4.38",
+    "postcss-nested": "^6.0.1",
+    "sass": "^1.77.4",
+    "shadcn-nuxt": "^0.10.4",
+    "tailwindcss-animate": "^1.0.7"
   }
 }
