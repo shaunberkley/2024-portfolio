@@ -34,6 +34,11 @@ export default defineNuxtConfig({
       stega: true,
     },
   },
+  nitro: {
+    prerender: {
+      autoSubfolderIndex: false,
+    },
+  },
   postcss: {
     plugins: {
       autoprefixer: {},
